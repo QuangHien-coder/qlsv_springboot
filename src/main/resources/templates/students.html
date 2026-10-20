@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Danh sách sinh viên</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/students}">QLSV</a>
+    <div class="user">
+        <!-- lay ten tu session luc dang nhap -->
+        Xin chào, <b th:text="${session.hoTen}">Tên</b>
+        <form th:action="@{/logout}" method="post">
+            <button class="btn ghost" type="submit">Đăng xuất</button>
+        </form>
+    </div>
+</header>
+
+<main class="container">
+    <div class="page-head">
+        <h1>Danh sách sinh viên <span class="count" th:text="${students.size()}">0</span></h1>
+        <a class="btn primary" th:href="@{/students/new}">+ Thêm sinh viên</a>
+    </div>
+
+    <div class="alert success" th:if="${msg}" th:text="${msg}"></div>
+
+    <form class="search" th:action="@{/students}" method="get">
+        <input type="text" name="keyword" th:value="${keyword}" placeholder="Tìm theo tên hoặc mã SV...">
+        <button class="btn" type="submit">Tìm</button>
+        <a class="btn ghost" th:if="${keyword}" th:href="@{/students}">Xóa lọc</a>
+    </form>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>#</th><th>Mã SV</th><th>Họ tên</th><th>Email</th>
+                <th>Ngày sinh</th><th>Lớp</th><th>Điểm TB</th><th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- th:each = vong for: moi sinh vien 1 dong; st.count = so thu tu -->
+            <tr th:each="s, st : ${students}">
+                <td th:text="${st.count}">1</td>
+                <td><b th:text="${s.maSv}">SV001</b></td>
+                <td th:text="${s.hoTen}">Nguyễn Văn A</td>
+                <td th:text="${s.email}">a@gmail.com</td>
+                <td th:text="${s.ngaySinh != null ? #temporals.format(s.ngaySinh, 'dd/MM/yyyy') : ''}">01/01/2005</td>
+                <td th:text="${s.lop}">T2608E</td>
+                <td>
+                    <span class="badge"
+                          th:classappend="${s.diemTb >= 8} ? 'good' : (${s.diemTb < 5} ? 'bad' : '')"
+                          th:text="${s.diemTb}">8.0</span>
+                </td>
+                <td class="actions">
+                    <a class="btn small" th:href="@{/students/{id}/edit(id=${s.id})}">Sửa</a>
+                    <form th:action="@{/students/{id}/delete(id=${s.id})}" method="post"
+                          onsubmit="return confirm('Xóa sinh viên này?')">
+                        <button class="btn small danger" type="submit">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${students.isEmpty()}">
+                <td colspan="8" class="empty">Không có sinh viên nào.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

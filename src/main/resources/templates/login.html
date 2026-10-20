@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="auth-page">
+<div class="auth-card">
+    <h1>Quản lý sinh viên</h1>
+    <p class="sub">Đăng nhập để tiếp tục</p>
+
+    <!-- msg: flash tu trang dang ky; error: loi tu Service -->
+    <div class="alert success" th:if="${msg}" th:text="${msg}"></div>
+    <div class="alert error" th:if="${error}" th:text="${error}"></div>
+
+    <!-- th:object gan form voi LoginDto; th:field tu dien name/value -->
+    <form th:action="@{/login}" th:object="${loginDto}" method="post">
+        <label>Tên đăng nhập
+            <input type="text" th:field="*{username}" autofocus>
+        </label>
+        <small class="err" th:errors="*{username}"></small>
+
+        <label>Mật khẩu
+            <input type="password" th:field="*{password}">
+        </label>
+        <small class="err" th:errors="*{password}"></small>
+
+        <button class="btn primary full" type="submit">Đăng nhập</button>
+    </form>
+    <p class="switch">Chưa có tài khoản? <a th:href="@{/register}">Đăng ký</a></p>
+    <p class="hint">Tài khoản mẫu: admin / 123456</p>
+</div>
+</body>
+</html>

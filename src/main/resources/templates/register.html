@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Đăng ký</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="auth-page">
+<div class="auth-card">
+    <h1>Tạo tài khoản</h1>
+    <p class="sub">Điền thông tin bên dưới</p>
+
+    <div class="alert error" th:if="${error}" th:text="${error}"></div>
+
+    <form th:action="@{/register}" th:object="${registerDto}" method="post">
+        <label>Họ tên
+            <input type="text" th:field="*{hoTen}">
+        </label>
+        <small class="err" th:errors="*{hoTen}"></small>
+
+        <label>Tên đăng nhập
+            <input type="text" th:field="*{username}">
+        </label>
+        <small class="err" th:errors="*{username}"></small>
+
+        <label>Mật khẩu
+            <input type="password" th:field="*{password}">
+        </label>
+        <small class="err" th:errors="*{password}"></small>
+
+        <label>Nhập lại mật khẩu
+            <input type="password" th:field="*{confirmPassword}">
+        </label>
+        <small class="err" th:errors="*{confirmPassword}"></small>
+
+        <button class="btn primary full" type="submit">Đăng ký</button>
+    </form>
+    <p class="switch">Đã có tài khoản? <a th:href="@{/login}">Đăng nhập</a></p>
+</div>
+</body>
+</html>

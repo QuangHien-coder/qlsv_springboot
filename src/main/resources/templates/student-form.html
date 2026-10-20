@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${studentDto.id == null} ? 'Thêm sinh viên' : 'Sửa sinh viên'">Sinh viên</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/students}">QLSV</a>
+    <div class="user">Xin chào, <b th:text="${session.hoTen}">Tên</b></div>
+</header>
+
+<main class="container narrow">
+    <div class="card">
+        <!-- id null -> dang them; co id -> dang sua -->
+        <h1 th:text="${studentDto.id == null} ? 'Thêm sinh viên' : 'Sửa sinh viên'">Sinh viên</h1>
+
+        <form th:action="@{/students/save}" th:object="${studentDto}" method="post" class="grid">
+            <!-- id an: gui kem de Controller biet la sua -->
+            <input type="hidden" th:field="*{id}">
+
+            <label>Mã SV *
+                <input type="text" th:field="*{maSv}" th:classappend="${#fields.hasErrors('maSv')} ? 'invalid'">
+                <small class="err" th:errors="*{maSv}"></small>
+            </label>
+
+            <label>Họ tên *
+                <input type="text" th:field="*{hoTen}" th:classappend="${#fields.hasErrors('hoTen')} ? 'invalid'">
+                <small class="err" th:errors="*{hoTen}"></small>
+            </label>
+
+            <label>Email
+                <input type="email" th:field="*{email}" th:classappend="${#fields.hasErrors('email')} ? 'invalid'">
+                <small class="err" th:errors="*{email}"></small>
+            </label>
+
+            <label>Ngày sinh
+                <input type="date" th:field="*{ngaySinh}" th:classappend="${#fields.hasErrors('ngaySinh')} ? 'invalid'">
+                <small class="err" th:errors="*{ngaySinh}"></small>
+            </label>
+
+            <label>Lớp
+                <input type="text" th:field="*{lop}">
+                <small class="err" th:errors="*{lop}"></small>
+            </label>
+
+            <label>Điểm TB *
+                <input type="number" step="0.1" min="0" max="10" th:field="*{diemTb}"
+                       th:classappend="${#fields.hasErrors('diemTb')} ? 'invalid'">
+                <small class="err" th:errors="*{diemTb}"></small>
+            </label>
+
+            <div class="form-actions">
+                <a class="btn ghost" th:href="@{/students}">Hủy</a>
+                <button class="btn primary" type="submit">Lưu</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

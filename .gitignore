@@ -1,0 +1,9 @@
+﻿target/
+data/
+.vscode/
+.idea/
+
+# File giai thich ca nhan, khong day len
+GIAI-THICH.md
+HUONG-DAN.md
+giong-doc/
